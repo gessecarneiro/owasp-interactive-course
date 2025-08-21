@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Interativo OWASP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .dark .bg-white {
+            background-color: #2d3748;
+        }
+        .dark .text-gray-800 {
+            color: #e2e8f0;
+        }
+        .dark .text-gray-700 {
+            color: #cbd5e0;
+        }
+        .dark .bg-gray-100 {
+            background-color: #4a5568;
+            border-color: #4a5568;
+        }
+        .dark .bg-gray-200 {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .dark .hover\:bg-gray-300:hover {
+            background-color: #6a778a;
+        }
+        .dark .bg-blue-600 {
+            background-color: #4299e1;
+        }
+        .dark .hover\:bg-blue-700:hover {
+            background-color: #63b3ed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center p-4 min-h-screen">
+    <div id="course-container" class="container bg-white rounded-xl shadow-2xl p-8 md:p-12 transition-all duration-300 transform scale-100">
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center">
+                <select id="language-select" class="bg-gray-200 text-gray-800 p-2 rounded-lg mr-2 dark:bg-gray-700 dark:text-gray-200">
+                    <option value="pt">Português</option>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                </select>
+                <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 text-gray-800 focus:outline-none dark:bg-gray-700 dark:text-gray-200">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <h1 id="course-title" class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 dark:text-gray-200"></h1>
+        <div id="lesson-content" class="text-lg text-gray-700 leading-relaxed mb-8 dark:text-gray-300"></div>
+        <div id="question-area" class="mt-6">
+            <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-4 dark:text-gray-200"></h2>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div id="feedback-message" class="mt-4 p-4 rounded-lg text-center text-white font-medium hidden"></div>
+        </div>
+        <div id="navigation-area" class="mt-8 flex justify-between">
+            <button id="next-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 hidden">
+                Continuar
+            </button>
+            <button id="restart-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 hidden">
+                Reiniciar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data structure for course content in multiple languages
+        const courseData = {
+            pt: [
+                {
+                    title: 'Módulo 1: OWASP Top 10 - O Básico',
+                    content: `
+                        <p>Bem-vindo ao curso interativo sobre a OWASP (Open Worldwide Application Security Project). O OWASP Top 10 é um guia essencial que destaca os riscos de segurança mais críticos para aplicações web.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control (Controle de Acesso Quebrado)</h3>
+                        <p>Esta vulnerabilidade ocorre quando restrições de acesso não são aplicadas corretamente. Um atacante pode acessar dados ou funcionalidades para as quais não tem permissão.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Exemplo:</strong> Um usuário comum consegue acessar o painel de administração apenas mudando a URL de <code>/user_profile</code> para <code>/admin</code>. O sistema falhou em verificar se o usuário tinha privilégios de administrador.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="10" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuário</text>
+                                <rect x="110" y="10" width="80" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="150" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Painel Admin</text>
+                                <path d="M90 30 L110 30" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="100" y="25" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">/admin</text>
+                                <text x="150" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Acesso Liberado</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Qual das seguintes situações é um exemplo de Broken Access Control?',
+                    options: [
+                        'O site não usa HTTPS para criptografar a comunicação.',
+                        'Um usuário consegue ver o perfil de outro usuário mudando o ID na URL.',
+                        'Um formulário de login permite tentativas de senha ilimitadas.'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'Correto! A falta de validação de permissões ao acessar o perfil de outro usuário é um exemplo clássico de Broken Access Control.'
+                },
+                {
+                    title: 'Módulo 1: OWASP Top 10 - Injeção',
+                    content: `
+                        <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection (Injeção)</h3>
+                        <p>Falhas de injeção, como SQL Injection ou Command Injection, ocorrem quando dados não confiáveis são enviados a um interpretador como parte de um comando. Isso pode levar à execução de comandos maliciosos.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Exemplo:</strong> Um atacante insere <code>' OR '1'='1' --</code> em um campo de login. Isso manipula a consulta SQL e permite o login sem uma senha válida.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Atacante</text>
+                                <path d="M90 40 L120 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="105" y="35" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">input: ' OR '1'='1</text>
+                                <rect x="120" y="20" width="100" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="170" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">SQL Query</text>
+                                <rect x="230" y="20" width="60" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="260" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Banco de Dados</text>
+                                <path d="M220 40 L230 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="170" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Execução Maliciosa</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Um atacante insere <code>; rm -rf /</code> em um campo de busca que usa um comando de sistema. Que tipo de vulnerabilidade ele está explorando?',
+                    options: [
+                        'Broken Access Control',
+                        'Criptographic Failures',
+                        'Injection (Command Injection)'
+                    ],
+                    correctAnswer: 2,
+                    feedback: 'Correto! O atacante está "injetando" um comando malicioso que o interpretador do sistema irá executar.'
+                },
+                {
+                    title: 'Módulo 2: Ameaças Automatizadas',
+                    content: `
+                        <p>O OWASP Automated Threats to Web Applications (OAT) lista as ameaças mais comuns que usam bots para atacar aplicações web. A maioria dessas ameaças não são vulnerabilidades de código, mas sim falhas na lógica de negócio e na defesa da aplicação.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">OT-001: Credential Stuffing</h3>
+                        <p>Esta é a ameaça mais comum. Atacantes usam listas de credenciais roubadas de outros sites para tentar login em sua aplicação. O objetivo é explorar o fato de que muitos usuários reutilizam senhas.</p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Bot/Atacante</text>
+                                <rect x="200" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="240" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Sua Aplicação</text>
+                                <path d="M90 40 Q 145 10, 190 40" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <path d="M90 50 Q 145 80, 190 50" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <text x="145" y="30" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">tentativa1@email.com</text>
+                                <text x="145" y="60" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">tentativa2@email.com</text>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Um site está sendo atacado por um script que tenta milhares de combinações de nome de usuário e senha por segundo. Isso é um ataque de:',
+                    options: [
+                        'Broken Access Control',
+                        'Credential Stuffing',
+                        'Denial of Service (DoS)'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'Correto! O ataque é de Credential Stuffing, usando credenciais de um vazamento de dados prévio.'
+                },
+                {
+                    title: 'Módulo 3: Segurança de API',
+                    content: `
+                        <p>Com o crescimento das APIs, a OWASP criou um Top 10 específico para elas. Muitas vulnerabilidades de API são similares às de web apps, mas algumas são únicas devido à sua natureza.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
+                        <p>Esta vulnerabilidade ocorre quando o sistema não verifica se o usuário autenticado tem permissão para acessar um objeto específico via API, usando um ID.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Exemplo:</strong> A API <code>/api/v1/users/{user_id}</code> retorna os dados de um usuário. Se o usuário A pode mudar o ID na requisição para o ID do usuário B e obter seus dados, isso é um BOLA.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuário A</text>
+                                <rect x="210" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="250" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Servidor API</text>
+                                <rect x="110" y="80" width="80" height="40" rx="5" ry="5" fill="#90cdf4" />
+                                <text x="150" y="105" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Dados B</text>
+                                <path d="M90 40 L210 40" stroke="#e53e3e" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="150" y="35" font-family="Inter" font-size="10" fill="#e53e3e" text-anchor="middle">/users/id_B</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53e3e" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Qual falha de API é um tipo de Broken Access Control específico para IDs de objetos?',
+                    options: [
+                        'API3: Broken Function Level Authorization',
+                        'API1: Broken Object Level Authorization (BOLA)',
+                        'API2: Broken Authentication'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'Isso mesmo! O BOLA é um tipo de Broken Access Control onde a validação falha no nível do objeto (o recurso específico, como um usuário, um arquivo, etc.).'
+                },
+                {
+                    title: 'Fim do Curso',
+                    content: `
+                        <p>Parabéns! Você concluiu este curso introdutório. Esperamos que tenha gostado da experiência e compreendido os riscos de segurança mais críticos para aplicações web e APIs. Para aprofundar, visite os links oficiais da OWASP.</p>
+                        <ul class="list-disc list-inside mt-4">
+                            <li><a href="https://owasp.org/www-project-top-ten/" class="text-blue-500 hover:underline" target="_blank">OWASP Top 10</a></li>
+                            <li><a href="https://owasp.org/www-project-automated-threats-to-web-applications/" class="text-blue-500 hover:underline" target="_blank">OWASP Automated Threats</a></li>
+                            <li><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" class="text-blue-500 hover:underline" target="_blank">OWASP API Security Top 10</a></li>
+                        </ul>
+                    `,
+                    question: '',
+                    options: [],
+                    correctAnswer: -1,
+                    feedback: ''
+                }
+            ],
+            en: [
+                {
+                    title: 'Module 1: OWASP Top 10 - The Basics',
+                    content: `
+                        <p>Welcome to the interactive course on OWASP (Open Worldwide Application Security Project). The OWASP Top 10 is an essential guide that highlights the most critical security risks for web applications.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control</h3>
+                        <p>This vulnerability occurs when access restrictions are not properly enforced. An attacker can access data or functionalities they are not authorized for.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Example:</strong> A regular user can access the admin panel just by changing the URL from <code>/user_profile</code> to <code>/admin</code>. The system failed to verify if the user had admin privileges.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="10" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">User</text>
+                                <rect x="110" y="10" width="80" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="150" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Admin Panel</text>
+                                <path d="M90 30 L110 30" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="100" y="25" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">/admin</text>
+                                <text x="150" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Access Granted</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeght="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Which of the following situations is an example of Broken Access Control?',
+                    options: [
+                        'The site does not use HTTPS to encrypt communication.',
+                        'A user can see another user\'s profile by changing the ID in the URL.',
+                        'A login form allows unlimited password attempts.'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'Correct! The lack of permission validation when accessing another user\'s profile is a classic example of Broken Access Control.'
+                },
+                {
+                    title: 'Module 1: OWASP Top 10 - Injection',
+                    content: `
+                        <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection</h3>
+                        <p>Injection flaws, such as SQL Injection or Command Injection, occur when untrusted data is sent to an interpreter as part of a command. This can lead to the execution of malicious commands.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Example:</strong> An attacker inserts <code>' OR '1'='1' --</code> into a login field. This manipulates the SQL query and allows login without a valid password.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Attacker</text>
+                                <path d="M90 40 L120 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="105" y="35" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">input: ' OR '1'='1</text>
+                                <rect x="120" y="20" width="100" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="170" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">SQL Query</text>
+                                <rect x="230" y="20" width="60" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="260" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Database</text>
+                                <path d="M220 40 L230 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="170" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Malicious Execution</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'An attacker inserts <code>; rm -rf /</code> into a search field that uses a system command. What type of vulnerability are they exploiting?',
+                    options: [
+                        'Broken Access Control',
+                        'Criptographic Failures',
+                        'Injection (Command Injection)'
+                    ],
+                    correctAnswer: 2,
+                    feedback: 'Correct! The attacker is "injecting" a malicious command that the system interpreter will execute.'
+                },
+                {
+                    title: 'Module 2: Automated Threats',
+                    content: `
+                        <p>The OWASP Automated Threats to Web Applications (OAT) lists the most common threats that use bots to attack web applications. Most of these threats are not code vulnerabilities, but rather flaws in the business logic and application defense.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">OT-001: Credential Stuffing</h3>
+                        <p>This is the most common threat. Attackers use lists of stolen credentials from other sites to attempt logins on your application. The goal is to exploit the fact that many users reuse passwords.</p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Bot/Attacker</text>
+                                <rect x="200" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="240" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Your Application</text>
+                                <path d="M90 40 Q 145 10, 190 40" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <path d="M90 50 Q 145 80, 190 50" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <text x="145" y="30" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">attempt1@email.com</text>
+                                <text x="145" y="60" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">attempt2@email.com</text>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'A site is being attacked by a script that tries thousands of username and password combinations per second. This is a:',
+                    options: [
+                        'Broken Access Control',
+                        'Credential Stuffing',
+                        'Denial of Service (DoS)'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'Correct! The attack is Credential Stuffing, using credentials from a previous data breach.'
+                },
+                {
+                    title: 'Module 3: API Security',
+                    content: `
+                        <p>With the growth of APIs, OWASP created a specific Top 10 for them. Many API vulnerabilities are similar to those in web apps, but some are unique due to their nature.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
+                        <p>This vulnerability occurs when the system does not verify if the authenticated user has permission to access a specific object via the API, using an ID.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Example:</strong> The API <code>/api/v1/users/{user_id}</code> returns a user's data. If user A can change the ID in the request to user B's ID and get their data, this is a BOLA attack.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">User A</text>
+                                <rect x="210" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="250" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">API Server</text>
+                                <rect x="110" y="80" width="80" height="40" rx="5" ry="5" fill="#90cdf4" />
+                                <text x="150" y="105" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Data B</text>
+                                <path d="M90 40 L210 40" stroke="#e53e3e" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="150" y="35" font-family="Inter" font-size="10" fill="#e53e3e" text-anchor="middle">/users/id_B</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53e3e" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Which API flaw is a type of Broken Access Control specific to object IDs?',
+                    options: [
+                        'API3: Broken Function Level Authorization',
+                        'API1: Broken Object Level Authorization (BOLA)',
+                        'API2: Broken Authentication'
+                    ],
+                    correctAnswer: 1,
+                    feedback: 'That\'s right! BOLA is a type of Broken Access Control where validation fails at the object level (the specific resource, like a user, a file, etc.).'
+                },
+                {
+                    title: 'End of Course',
+                    content: `
+                        <p>Congratulations! You have completed this introductory course. We hope you enjoyed the experience and have understood the most critical security risks for web applications and APIs. To delve deeper, visit the official OWASP links.</p>
+                        <ul class="list-disc list-inside mt-4">
+                            <li><a href="https://owasp.org/www-project-top-ten/" class="text-blue-500 hover:underline" target="_blank">OWASP Top 10</a></li>
+                            <li><a href="https://owasp.org/www-project-automated-threats-to-web-applications/" class="text-blue-500 hover:underline" target="_blank">OWASP Automated Threats</a></li>
+                            <li><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" class="text-blue-500 hover:underline" target="_blank">OWASP API Security Top 10</a></li>
+                        </ul>
+                    `,
+                    question: '',
+                    options: [],
+                    correctAnswer: -1,
+                    feedback: ''
+                }
+            ],
+            es: [
+                {
+                    title: 'Módulo 1: OWASP Top 10 - Lo Básico',
+                    content: `
+                        <p>Bienvenido al curso interactivo sobre OWASP (Open Worldwide Application Security Project). El OWASP Top 10 es una guía esencial que destaca los riesgos de seguridad más críticos para las aplicaciones web.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control (Control de Acceso Roto)</h3>
+                        <p>Esta vulnerabilidad ocurre cuando las restricciones de acceso no se aplican correctamente. Un atacante puede acceder a datos o funcionalidades para las que no está autorizado.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Ejemplo:</strong> Un usuario común puede acceder al panel de administración simplemente cambiando la URL de <code>/user_profile</code> a <code>/admin</code>. El sistema no verificó si el usuario tenía privilegios de administrador.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="10" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuario</text>
+                                <rect x="110" y="10" width="80" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="150" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Panel Admin</text>
+                                <path d="M90 30 L110 30" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="100" y="25" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">/admin</text>
+                                <text x="150" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Acceso Concedido</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: '¿Cuál de las siguientes situaciones es un ejemplo de Broken Access Control?',
+                    options: [
+                        'El sitio no utiliza HTTPS para cifrar la comunicación.',
+                        'Un usuario puede ver el perfil de otro usuario cambiando el ID en la URL.',
+                        'Un formulario de inicio de sesión permite intentos de contraseña ilimitados.'
+                    ],
+                    correctAnswer: 1,
+                    feedback: '¡Correcto! La falta de validación de permisos al acceder al perfil de otro usuario es un ejemplo clásico de Broken Access Control.'
+                },
+                {
+                    title: 'Módulo 1: OWASP Top 10 - Inyección',
+                    content: `
+                        <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection (Inyección)</h3>
+                        <p>Las fallas de inyección, como SQL Injection o Command Injection, ocurren cuando se envían datos no confiables a un intérprete como parte de un comando. Esto puede llevar a la ejecución de comandos maliciosos.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Ejemplo:</strong> Un atacante inserta <code>' OR '1'='1' --</code> en un campo de inicio de sesión. Esto manipula la consulta SQL y permite el inicio de sesión sin una contraseña válida.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Atacante</text>
+                                <path d="M90 40 L120 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="105" y="35" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">input: ' OR '1'='1</text>
+                                <rect x="120" y="20" width="100" height="40" rx="5" ry="5" fill="#f56565" />
+                                <text x="170" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Consulta SQL</text>
+                                <rect x="230" y="20" width="60" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="260" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Base de Datos</text>
+                                <path d="M220 40 L230 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="170" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Ejecución Maliciosa</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Un atacante inserta <code>; rm -rf /</code> en un campo de búsqueda que utiliza un comando de sistema. ¿Qué tipo de vulnerabilidad está explotando?',
+                    options: [
+                        'Broken Access Control',
+                        'Criptographic Failures',
+                        'Injection (Command Injection)'
+                    ],
+                    correctAnswer: 2,
+                    feedback: '¡Correcto! El atacante está "inyectando" un comando malicioso que el intérprete del sistema ejecutará.'
+                },
+                {
+                    title: 'Módulo 2: Amenazas Automatizadas',
+                    content: `
+                        <p>El OWASP Automated Threats to Web Applications (OAT) enumera las amenazas más comunes que utilizan bots para atacar aplicaciones web. La mayoría de estas amenazas no son vulnerabilidades de código, sino fallas en la lógica de negocio y la defensa de la aplicación.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">OT-001: Credential Stuffing</h3>
+                        <p>Esta es la amenaza más común. Los atacantes utilizan listas de credenciales robadas de otros sitios para intentar iniciar sesión en su aplicación. El objetivo es explotar el hecho de que muchos usuarios reutilizan contraseñas.</p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Bot/Atacante</text>
+                                <rect x="200" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="240" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Tu Aplicación</text>
+                                <path d="M90 40 Q 145 10, 190 40" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <path d="M90 50 Q 145 80, 190 50" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                <text x="145" y="30" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">intento1@email.com</text>
+                                <text x="145" y="60" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">intento2@email.com</text>
+                            </svg>
+                        </div>
+                    `,
+                    question: 'Un sitio está siendo atacado por un script que intenta miles de combinaciones de nombre de usuario y contraseña por segundo. Esto es un ataque de:',
+                    options: [
+                        'Broken Access Control',
+                        'Credential Stuffing',
+                        'Denial of Service (DoS)'
+                    ],
+                    correctAnswer: 1,
+                    feedback: '¡Correcto! El ataque es de Credential Stuffing, utilizando credenciales de una violación de datos previa.'
+                },
+                {
+                    title: 'Módulo 3: Seguridad de API',
+                    content: `
+                        <p>Con el crecimiento de las APIs, OWASP creó un Top 10 específico para ellas. Muchas vulnerabilidades de API son similares a las de las aplicaciones web, pero algunas son únicas debido a su naturaleza.</p>
+                        <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
+                        <p>Esta vulnerabilidad ocurre cuando el sistema no verifica si el usuario autenticado tiene permiso para acceder a un objeto específico a través de la API, usando un ID.</p>
+                        <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <strong>Ejemplo:</strong> La API <code>/api/v1/users/{user_id}</code> devuelve los datos de un usuario. Si el usuario A puede cambiar el ID en la solicitud al ID del usuario B y obtener sus datos, esto es un BOLA.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuario A</text>
+                                <rect x="210" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                <text x="250" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Servidor API</text>
+                                <rect x="110" y="80" width="80" height="40" rx="5" ry="5" fill="#90cdf4" />
+                                <text x="150" y="105" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Datos B</text>
+                                <path d="M90 40 L210 40" stroke="#e53e3e" stroke-width="2" marker-end="url(#arrowhead)" />
+                                <text x="150" y="35" font-family="Inter" font-size="10" fill="#e53e3e" text-anchor="middle">/users/id_B</text>
+                                <defs>
+                                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53e3e" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    `,
+                    question: '¿Qué falla de API es un tipo de Broken Access Control específico para IDs de objetos?',
+                    options: [
+                        'API3: Broken Function Level Authorization',
+                        'API1: Broken Object Level Authorization (BOLA)',
+                        'API2: Broken Authentication'
+                    ],
+                    correctAnswer: 1,
+                    feedback: '¡Así es! BOLA es un tipo de Broken Access Control donde la validación falla a nivel de objeto (el recurso específico, como un usuario, un archivo, etc.).'
+                },
+                {
+                    title: 'Fin del Curso',
+                    content: `
+                        <p>¡Felicitaciones! Has completado este curso introductorio. Esperamos que hayas disfrutado la experiencia y comprendido los riesgos de seguridad más críticos para aplicaciones web y APIs. Para profundizar, visita los enlaces oficiales de OWASP.</p>
+                        <ul class="list-disc list-inside mt-4">
+                            <li><a href="https://owasp.org/www-project-top-ten/" class="text-blue-500 hover:underline" target="_blank">OWASP Top 10</a></li>
+                            <li><a href="https://owasp.org/www-project-automated-threats-to-web-applications/" class="text-blue-500 hover:underline" target="_blank">OWASP Automated Threats</a></li>
+                            <li><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" class="text-blue-500 hover:underline" target="_blank">OWASP API Security Top 10</a></li>
+                        </ul>
+                    `,
+                    question: '',
+                    options: [],
+                    correctAnswer: -1,
+                    feedback: ''
+                }
+            ]
+        };
+
+        let currentLessonIndex = 0;
+        let currentLanguage = 'pt';
+
+        const courseTitle = document.getElementById('course-title');
+        const lessonContent = document.getElementById('lesson-content');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const nextButton = document.getElementById('next-button');
+        const restartButton = document.getElementById('restart-button');
+        const themeToggle = document.getElementById('theme-toggle');
+        const languageSelect = document.getElementById('language-select');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+
+        // Function to render the current lesson based on language
+        function renderLesson() {
+            const lesson = courseData[currentLanguage][currentLessonIndex];
+            courseTitle.innerHTML = lesson.title;
+            lessonContent.innerHTML = lesson.content;
+            
+            if (lesson.question) {
+                questionText.innerHTML = lesson.question;
+                optionsContainer.innerHTML = '';
+                lesson.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.innerHTML = option;
+                    button.className = 'option-button bg-gray-200 text-gray-800 p-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600';
+                    button.onclick = () => handleAnswer(index);
+                    optionsContainer.appendChild(button);
+                });
+                document.getElementById('question-area').style.display = 'block';
+                feedbackMessage.classList.add('hidden');
+                nextButton.classList.add('hidden');
+            } else {
+                document.getElementById('question-area').style.display = 'none';
+                feedbackMessage.classList.add('hidden');
+                nextButton.classList.add('hidden');
+                restartButton.classList.remove('hidden');
+            }
+        }
+
+        // Function to handle the user's answer
+        function handleAnswer(selectedIndex) {
+            const lesson = courseData[currentLanguage][currentLessonIndex];
+            const isCorrect = selectedIndex === lesson.correctAnswer;
+            
+            feedbackMessage.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackMessage.textContent = lesson.feedback;
+                feedbackMessage.classList.remove('bg-red-500');
+                feedbackMessage.classList.add('bg-green-500');
+                nextButton.classList.remove('hidden');
+            } else {
+                feedbackMessage.textContent = courseData[currentLanguage][currentLessonIndex].feedback;
+                if (!feedbackMessage.textContent.includes('Incorreto.') && !feedbackMessage.textContent.includes('Incorrect.') && !feedbackMessage.textContent.includes('Incorrecto.')) {
+                    feedbackMessage.textContent = (currentLanguage === 'pt' ? 'Incorreto. Tente novamente.' : (currentLanguage === 'en' ? 'Incorrect. Try again.' : 'Incorrecto. Intenta de nuevo.'));
+                }
+                feedbackMessage.classList.remove('bg-green-500');
+                feedbackMessage.classList.add('bg-red-500');
+                nextButton.classList.add('hidden');
+            }
+            
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-gray-300');
+                btn.classList.add('cursor-not-allowed');
+            });
+        }
+
+        // Function to load the next lesson
+        function nextLesson() {
+            currentLessonIndex++;
+            if (currentLessonIndex < courseData[currentLanguage].length) {
+                renderLesson();
+            } else {
+                courseTitle.innerHTML = courseData[currentLanguage][courseData[currentLanguage].length - 1].title;
+                lessonContent.innerHTML = courseData[currentLanguage][courseData[currentLanguage].length - 1].content;
+                document.getElementById('question-area').style.display = 'none';
+                nextButton.classList.add('hidden');
+            }
+        }
+
+        // Function to restart the course
+        function restartCourse() {
+            currentLessonIndex = 0;
+            restartButton.classList.add('hidden');
+            renderLesson();
+        }
+
+        // Event Listeners
+        nextButton.addEventListener('click', nextLesson);
+        restartButton.addEventListener('click', restartCourse);
+        
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            if (document.body.classList.contains('dark')) {
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            } else {
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+            }
+        });
+
+        // Language selector
+        languageSelect.addEventListener('change', (event) => {
+            currentLanguage = event.target.value;
+            renderLesson();
+            if (currentLanguage === 'pt') {
+                nextButton.textContent = 'Continuar';
+                restartButton.textContent = 'Reiniciar';
+            } else if (currentLanguage === 'en') {
+                nextButton.textContent = 'Continue';
+                restartButton.textContent = 'Restart';
+            } else if (currentLanguage === 'es') {
+                nextButton.textContent = 'Continuar';
+                restartButton.textContent = 'Reiniciar';
+            }
+        });
+
+        // Initialize the course
+        renderLesson();
+    </script>
+</body>
+</html>
+
