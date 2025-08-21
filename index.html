@@ -74,41 +74,19 @@
             border-bottom-width: 2px;
             border-color: #4299e1;
         }
-        #gemini-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        #gemini-modal-content {
-            background-color: #2d3748;
-            color: #e2e8f0;
-            border-radius: 0.75rem;
-            max-width: 700px;
-            width: 90%;
-            padding: 2rem;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
     </style>
 </head>
 <body class="dark bg-gray-100 flex items-center justify-center p-4 min-h-screen">
     <div id="course-container" class="container bg-white rounded-xl shadow-2xl p-8 md:p-12 transition-all duration-300 transform scale-100">
         <div class="flex justify-between items-center mb-6 flex-wrap">
             <div class="flex items-center mb-4 md:mb-0">
-                <select id="language-select" class="bg-gray-200 text-gray-800 p-2 rounded-lg mr-2 dark:bg-gray-700 dark:text-gray-200">
+                <select id="language-select" class="bg-gray-200 text-gray-800 p-2 rounded-lg mr-2">
                     <option value="pt">Português</option>
                     <option value="en">English</option>
                     <option value="es">Español</option>
                 </select>
             </div>
-            <div id="streak-counter" class="text-lg font-semibold text-gray-800 dark:text-gray-200">🔥 0</div>
+            <div id="streak-counter" class="text-lg font-semibold text-gray-800">🔥 0</div>
         </div>
 
         <div class="tabs flex justify-center mb-6 border-b border-gray-700">
@@ -123,25 +101,15 @@
             </button>
         </div>
 
-        <h1 id="course-title" class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 dark:text-gray-200"></h1>
-        <div id="lesson-content" class="text-lg text-gray-700 leading-relaxed mb-8 dark:text-gray-300"></div>
-
-        <div id="gemini-controls" class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mt-6 mb-8">
-            <button id="explain-button" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-300 w-full md:w-auto">
-                🤔 Explicar com Gemini
-            </button>
-            <button id="tts-button" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-300 w-full md:w-auto">
-                🔊 Ouvir Lição
-            </button>
-            <div id="loading-indicator" class="hidden loader"></div>
-        </div>
+        <h1 id="course-title" class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6"></h1>
+        <div id="lesson-content" class="text-lg text-gray-700 leading-relaxed mb-8"></div>
 
         <div id="question-area" class="mt-6">
-            <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-4 dark:text-gray-200"></h2>
+            <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-4"></h2>
             <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             <div id="feedback-message" class="mt-4 p-4 rounded-lg text-center text-white font-medium hidden"></div>
             <div id="documentation-area" class="mt-4 hidden documentation-links">
-                <h3 class="font-semibold text-gray-800 dark:text-gray-200">Documentação para aprofundar:</h3>
+                <h3 class="font-semibold text-gray-800">Documentação para aprofundar:</h3>
                 <ul id="documentation-list" class="list-disc list-inside mt-2"></ul>
             </div>
         </div>
@@ -153,19 +121,6 @@
             <button id="restart-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 hidden">
                 Reiniciar
             </button>
-        </div>
-    </div>
-
-    <!-- Modal for Gemini Explanation -->
-    <div id="gemini-modal" class="hidden">
-        <div id="gemini-modal-content" class="relative">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <h2 class="text-2xl font-bold mb-4">Explicação do Gemini</h2>
-            <div id="modal-text" class="text-lg"></div>
         </div>
     </div>
 
@@ -181,7 +136,7 @@
                             <p>Bem-vindo ao seu primeiro dia de curso sobre a OWASP (Open Worldwide Application Security Project). O OWASP Top 10 é um guia essencial que destaca os riscos de segurança mais críticos para aplicações web.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control (Controle de Acesso Quebrado)</h3>
                             <p>Esta vulnerabilidade ocorre quando restrições de acesso não são aplicadas corretamente. Um atacante pode aceder a dados ou funcionalidades para as quais não tem permissão.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Exemplo:</strong> Um usuário comum consegue aceder ao painel de administração apenas mudando a URL de <code>/user_profile</code> para <code>/admin</code>. O sistema falhou em verificar se o usuário tinha privilégios de administrador.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -219,7 +174,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection (Injeção)</h3>
                             <p>Falhas de injeção, como SQL Injection ou Command Injection, ocorrem quando dados não confiáveis são enviados a um interpretador como parte de um comando. Isso pode levar à execução de comandos maliciosos.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Exemplo:</strong> Um atacante insere <code>' OR '1'='1' --</code> em um campo de login. Isso manipula a consulta SQL e permite o login sem uma senha válida.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -294,7 +249,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">OT-002: Web Scraping</h3>
                             <p>Web scraping é o processo de usar um bot para extrair conteúdo e dados de um site. Embora possa ter usos legítimos, também é uma ameaça quando usado para roubar conteúdo proprietário, preços de produtos ou listas de e-mails.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Exemplo:</strong> Um concorrente usa um bot para extrair todos os preços dos seus produtos em tempo real, permitindo-lhe ajustar os seus próprios preços para serem sempre mais baixos.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -331,7 +286,7 @@
                             <p>Com o crescimento das APIs, a OWASP criou um Top 10 específico para elas. Muitas vulnerabilidades de API são similares às de web apps, mas algumas são únicas devido à sua natureza.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
                             <p>Esta vulnerabilidade ocorre quando o sistema não verifica se o usuário autenticado tem permissão para aceder a um objeto específico via API, usando um ID.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Exemplo:</strong> A API <code>/api/v1/users/{user_id}</code> retorna os dados de um usuário. Se o usuário A pode mudar o ID na requisição para o ID do usuário B e obter os seus dados, isso é um BOLA.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -375,7 +330,7 @@
                             <p>Welcome to your first day of the course on OWASP (Open Worldwide Application Security Project). The OWASP Top 10 is an essential guide that highlights the most critical security risks for web applications.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control</h3>
                             <p>This vulnerability occurs when access restrictions are not properly enforced. An attacker can access data or functionalities they are not authorized for.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Example:</strong> A regular user can access the admin panel just by changing the URL from <code>/user_profile</code> to <code>/admin</code>. The system failed to verify if the user had admin privileges.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -413,7 +368,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection</h3>
                             <p>Injection flaws, such as SQL Injection or Command Injection, occur when untrusted data is sent to an interpreter as part of a command. This can lead to the execution of malicious commands.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Example:</strong> An attacker inserts <code>' OR '1'='1' --</code> into a login field. This manipulates the SQL query and allows login without a valid password.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -488,7 +443,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">OT-002: Web Scraping</h3>
                             <p>Web scraping is the process of using a bot to extract content and data from a website. While it can have legitimate uses, it is also a threat when used to steal proprietary content, product prices, or email lists.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Example:</strong> A competitor uses a bot to extract all your product prices in real-time, allowing them to adjust their own prices to always be lower.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -525,7 +480,7 @@
                             <p>With the growth of APIs, OWASP created a specific Top 10 for them. Many API vulnerabilities are similar to those in web apps, but some are unique due to their nature.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
                             <p>This vulnerability occurs when the system does not verify if the authenticated user has permission to access a specific object via the API, using an ID.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Example:</strong> The API <code>/api/v1/users/{user_id}</code> returns a user's data. If user A can change the ID in the request to user B's ID and get their data, this is a BOLA attack.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -539,7 +494,7 @@
                                     <path d="M90 40 L210 40" stroke="#e53e3e" stroke-width="2" marker-end="url(#arrowhead)" />
                                     <text x="150" y="35" font-family="Inter" font-size="10" fill="#e53e3e" text-anchor="middle">/users/id_B</text>
                                     <defs>
-                                        <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeght="6" orient="auto">
                                             <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53e3e" />
                                         </marker>
                                     </defs>
@@ -569,7 +524,7 @@
                             <p>Bienvenido a su primer día de curso sobre OWASP (Open Worldwide Application Security Project). El OWASP Top 10 es una guía esencial que destaca los riesgos de seguridad más críticos para las aplicaciones web.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control (Control de Acceso Roto)</h3>
                             <p>Esta vulnerabilidad ocurre cuando las restricciones de acceso no se aplican correctamente. Un atacante puede acceder a datos o funcionalidades para las que no está autorizado.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Ejemplo:</strong> Un usuario común puede acceder al panel de administración simplemente cambiando la URL de <code>/user_profile</code> a <code>/admin</code>. El sistema no verificó si el usuario tenía privilegios de administrador.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -607,7 +562,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection (Inyección)</h3>
                             <p>Las fallas de inyección, como SQL Injection o Command Injection, ocurren cuando se envían datos no confiables a un intérprete como parte de un comando. Esto puede llevar a la ejecución de comandos maliciosos.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Ejemplo:</strong> Un atacante inserta <code>' OR '1'='1' --</code> en un campo de inicio de sesión. Esto manipula la consulta SQL y permite el inicio de sesión sin una contraseña válida.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -682,7 +637,7 @@
                         content: `
                             <h3 class="font-bold text-xl mt-4 mb-2">OT-002: Web Scraping</h3>
                             <p>Web scraping es el proceso de utilizar un bot para extraer contenido y datos de un sitio web. Aunque puede tener usos legítimos, también es una amenaza cuando se utiliza para robar contenido propietario, precios de productos o listas de correo electrónico.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Ejemplo:</strong> Un competidor utiliza un bot para extraer todos los precios de sus productos en tiempo real, lo que le permite ajustar sus propios precios para que siempre sean más bajos.
                             </p>
                             <div class="flex justify-center mt-6">
@@ -718,8 +673,201 @@
                         content: `
                             <p>Con el crecimiento de las APIs, OWASP creó un Top 10 específico para ellas. Muchas vulnerabilidades de API son similares a las de las aplicaciones web, pero algunas son únicas debido a su naturaleza.</p>
                             <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
-                            <p>Esta vulnerabilidad ocurre cuando el sistema no verifica si el usuario autenticado tiene permiso para acceder a un objeto específico a través de la API, usando un ID.</p>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p>Esta vulnerabilidade ocorre quando o sistema não verifica se o usuário autenticado tem permissão para aceder a um objeto específico via API, usando um ID.</p>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
+                                <strong>Exemplo:</strong> A API <code>/api/v1/users/{user_id}</code> retorna os dados de um usuário. Se o usuário A pode mudar o ID na requisição para o ID do usuário B e obter os seus dados, isso é um BOLA.</p>
+                            <div class="flex justify-center mt-6">
+                                <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                    <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuário A</text>
+                                    <rect x="210" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                    <text x="250" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Servidor API</text>
+                                    <rect x="110" y="80" width="80" height="40" rx="5" ry="5" fill="#90cdf4" />
+                                    <text x="150" y="105" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Dados B</text>
+                                    <path d="M90 40 L210 40" stroke="#e53e3e" stroke-width="2" marker-end="url(#arrowhead)" />
+                                    <text x="150" y="35" font-family="Inter" font-size="10" fill="#e53e3e" text-anchor="middle">/users/id_B</text>
+                                    <defs>
+                                        <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53e3e" />
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                        `,
+                        question: 'Qual falha de API é um tipo de Broken Access Control específico para IDs de objetos?',
+                        options: [
+                            'API3: Broken Function Level Authorization',
+                            'API1: Broken Object Level Authorization (BOLA)',
+                            'API2: Broken Authentication'
+                        ],
+                        correctAnswer: 1,
+                        feedback: 'Isso mesmo! O BOLA é um tipo de Broken Access Control onde a validação falha no nível do objeto (o recurso específico, como um usuário, um ficheiro, etc.).',
+                        documentation: [
+                            { text: 'OWASP API Security Top 10 - BOLA', url: 'https://owasp.org/API-Security/editions/2023/en/0x11-t10/#api1-broken-object-level-authorization' }
+                        ]
+                    }
+                ]
+            },
+            es: {
+                top10: [
+                    {
+                        day: 1,
+                        title: 'Día 1: OWASP Top 10 - Lo Básico',
+                        content: `
+                            <p>Bienvenido a su primer día de curso sobre OWASP (Open Worldwide Application Security Project). El OWASP Top 10 es una guía esencial que destaca los riesgos de seguridad más críticos para las aplicaciones web.</p>
+                            <h3 class="font-bold text-xl mt-4 mb-2">A01: Broken Access Control (Control de Acceso Roto)</h3>
+                            <p>Esta vulnerabilidad ocurre cuando las restricciones de acceso no se aplican correctamente. Un atacante puede acceder a datos o funcionalidades para las que no está autorizado.</p>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
+                                <strong>Ejemplo:</strong> Un usuario común puede acceder al panel de administración simplemente cambiando la URL de <code>/user_profile</code> a <code>/admin</code>. El sistema no verificó si el usuario tenía privilegios de administrador.
+                            </p>
+                            <div class="flex justify-center mt-6">
+                                <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="10" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                    <text x="50" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Usuario</text>
+                                    <rect x="110" y="10" width="80" height="40" rx="5" ry="5" fill="#f56565" />
+                                    <text x="150" y="35" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Panel Admin</text>
+                                    <path d="M90 30 L110 30" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                    <text x="100" y="25" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">/admin</text>
+                                    <text x="150" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Acceso Concedido</text>
+                                    <defs>
+                                        <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                        `,
+                        question: '¿Cuál de las siguientes situaciones es un ejemplo de Broken Access Control?',
+                        options: [
+                            'El sitio no utiliza HTTPS para cifrar la comunicación.',
+                            'Un usuario puede ver el perfil de otro usuario cambiando el ID en la URL.',
+                            'Un formulario de inicio de sesión permite intentos de contraseña ilimitados.'
+                        ],
+                        correctAnswer: 1,
+                        feedback: '¡Correcto! La falta de validación de permisos al acceder al perfil de otro usuario es un ejemplo clásico de Broken Access Control.',
+                        documentation: [
+                            { text: 'OWASP Top 10 - Broken Access Control', url: 'https://owasp.org/www-project-top-ten/2021/A01_2021-Broken_Access_Control' }
+                        ]
+                    },
+                    {
+                        day: 2,
+                        title: 'Día 2: OWASP Top 10 - Inyección',
+                        content: `
+                            <h3 class="font-bold text-xl mt-4 mb-2">A03: Injection (Inyección)</h3>
+                            <p>Las fallas de inyección, como SQL Injection o Command Injection, ocurren cuando se envían datos no confiables a un intérprete como parte de un comando. Esto puede llevar a la ejecución de comandos maliciosos.</p>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
+                                <strong>Ejemplo:</strong> Un atacante inserta <code>' OR '1'='1' --</code> en un campo de inicio de sesión. Esto manipula la consulta SQL y permite el inicio de sesión sin una contraseña válida.
+                            </p>
+                            <div class="flex justify-center mt-6">
+                                <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                    <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Atacante</text>
+                                    <path d="M90 40 L120 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                    <text x="105" y="35" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">input: ' OR '1'='1</text>
+                                    <rect x="120" y="20" width="100" height="40" rx="5" ry="5" fill="#f56565" />
+                                    <text x="170" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Consulta SQL</text>
+                                    <rect x="230" y="20" width="60" height="40" rx="5" ry="5" fill="#48bb78" />
+                                    <text x="260" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Base de Datos</text>
+                                    <path d="M220 40 L230 40" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrowhead)" />
+                                    <text x="170" y="80" font-family="Inter" font-size="12" fill="#e53e3e" text-anchor="middle">❌ Ejecución Maliciosa</text>
+                                    <defs>
+                                        <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a0aec0" />
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                        `,
+                        question: 'Un atacante inserta <code>; rm -rf /</code> en un campo de búsqueda que utiliza un comando de sistema. ¿Qué tipo de vulnerabilidad está explotando?',
+                        options: [
+                            'Broken Access Control',
+                            'Criptographic Failures',
+                            'Injection (Command Injection)'
+                        ],
+                        correctAnswer: 2,
+                        feedback: '¡Correcto! El atacante está "inyectando" un comando malicioso que el intérprete del sistema ejecutará.',
+                        documentation: [
+                            { text: 'OWASP Top 10 - Injection', url: 'https://owasp.org/www-project-top-ten/2021/A03_2021-Injection' }
+                        ]
+                    }
+                ],
+                bots: [
+                    {
+                        day: 3,
+                        title: 'Día 3: Amenazas Automatizadas - Credential Stuffing',
+                        content: `
+                            <p>El OWASP Automated Threats to Web Applications (OAT) enumera las amenazas más comunes que utilizan bots para atacar aplicaciones web. La mayoría de estas amenazas no son vulnerabilidades de código, sino fallas en la lógica de negocio y la defensa de la aplicación.</p>
+                            <h3 class="font-bold text-xl mt-4 mb-2">OT-001: Credential Stuffing</h3>
+                            <p>Esta es la amenaza más común. Los atacantes utilizan listas de credenciales robadas de otros sitios para intentar iniciar sesión en su aplicación. El objetivo es explotar el hecho de que muchos usuarios reutilizan contraseñas.</p>
+                            <div class="flex justify-center mt-6">
+                                <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                    <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Bot/Atacante</text>
+                                    <rect x="200" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                    <text x="240" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Tu Aplicación</text>
+                                    <path d="M90 40 Q 145 10, 190 40" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                    <path d="M90 50 Q 145 80, 190 50" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                    <text x="145" y="30" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">intento1@email.com</text>
+                                    <text x="145" y="60" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">intento2@email.com</text>
+                                </svg>
+                            </div>
+                        `,
+                        question: 'Un sitio está siendo atacado por un script que intenta miles de combinaciones de nombre de usuario y contraseña por segundo. Esto es un ataque de:',
+                        options: [
+                            'Broken Access Control',
+                            'Credential Stuffing',
+                            'Denial of Service (DoS)'
+                        ],
+                        correctAnswer: 1,
+                        feedback: '¡Correcto! El ataque es de Credential Stuffing, utilizando credenciales de una violación de datos previa.',
+                        documentation: [
+                            { text: 'OWASP Automated Threats - Credential Stuffing', url: 'https://owasp.org/www-project-automated-threats-to-web-applications/#ot-001-credential-stuffing' }
+                        ]
+                    },
+                    {
+                        day: 4,
+                        title: 'Día 4: Amenazas Automatizadas - Web Scraping',
+                        content: `
+                            <h3 class="font-bold text-xl mt-4 mb-2">OT-002: Web Scraping</h3>
+                            <p>Web scraping es el proceso de utilizar un bot para extraer contenido y datos de un sitio web. Aunque puede tener usos legítimos, también es una amenaza cuando se utiliza para robar contenido propietario, precios de productos o listas de correo electrónico.</p>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
+                                <strong>Ejemplo:</strong> Un competidor utiliza un bot para extraer todos los precios de sus productos en tiempo real, lo que le permite ajustar sus propios precios para que siempre sean más bajos.
+                            </p>
+                            <div class="flex justify-center mt-6">
+                                <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="20" width="80" height="40" rx="5" ry="5" fill="#4299e1" />
+                                    <text x="50" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Scraper Bot</text>
+                                    <rect x="200" y="20" width="80" height="40" rx="5" ry="5" fill="#48bb78" />
+                                    <text x="240" y="45" font-family="Inter" font-size="12" fill="white" text-anchor="middle">Tu Tienda</text>
+                                    <path d="M90 40 Q 145 10, 190 40" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                    <path d="M90 50 Q 145 80, 190 50" stroke="#a0aec0" stroke-width="2" fill="none" />
+                                    <text x="145" y="30" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">/productos</text>
+                                    <text x="145" y="60" font-family="Inter" font-size="10" fill="#a0aec0" text-anchor="middle">Extrayendo datos...</text>
+                                </svg>
+                            </div>
+                        `,
+                        question: '¿Cuál es la principal amenaza de un bot que visita repetidamente un sitio para copiar información de productos?',
+                        options: [
+                            'Credential Stuffing',
+                            'Web Scraping',
+                            'Denial of Service (DoS)'
+                        ],
+                        correctAnswer: 1,
+                        feedback: '¡Correcto! Esta actividad es un ejemplo clásico de Web Scraping. Para proteger tu sitio, puedes usar técnicas como honeypots y detección de patrones de acceso.',
+                        documentation: [
+                            { text: 'OWASP Automated Threats - Web Scraping', url: 'https://owasp.org/www-project-automated-threats-to-web-applications/#ot-002-web-scraping' }
+                        ]
+                    }
+                ],
+                api: [
+                    {
+                        day: 5,
+                        title: 'Día 5: Seguridad de API - BOLA',
+                        content: `
+                            <p>Con el crecimiento de las APIs, OWASP creó un Top 10 específico para ellas. Muchas vulnerabilidades de API son similares a las de las aplicaciones web, pero algunas son únicas debido a su naturaleza.</p>
+                            <h3 class="font-bold text-xl mt-4 mb-2">API1: Broken Object Level Authorization (BOLA)</h3>
+                            <p>Esta vulnerabilidade ocorre quando o sistema não verifica se o usuário autenticado tem permissão para aceder a um objeto específico via API, usando um ID.</p>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-md border border-gray-200">
                                 <strong>Ejemplo:</strong> La API <code>/api/v1/users/{user_id}</code> devuelve los datos de un usuario. Si el usuario A puede cambiar el ID en la solicitud al ID del usuario B y obtener sus datos, esto es un BOLA.</p>
                             <div class="flex justify-center mt-6">
                                 <svg class="w-full max-w-md h-auto" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
@@ -793,10 +941,7 @@
         let currentSection = 'top10';
         let currentLessonIndex = 0;
         let currentLanguage = 'pt';
-        let isSpeaking = false;
-        let audioContext = null;
-        let audioSource = null;
-
+        
         const courseTitle = document.getElementById('course-title');
         const lessonContent = document.getElementById('lesson-content');
         const questionText = document.getElementById('question-text');
@@ -805,18 +950,11 @@
         const nextButton = document.getElementById('next-button');
         const restartButton = document.getElementById('restart-button');
         const languageSelect = document.getElementById('language-select');
-        const explainButton = document.getElementById('explain-button');
-        const ttsButton = document.getElementById('tts-button');
-        const loadingIndicator = document.getElementById('loading-indicator');
         const documentationArea = document.getElementById('documentation-area');
         const documentationList = document.getElementById('documentation-list');
         const streakCounter = document.getElementById('streak-counter');
         const tabButtons = document.querySelectorAll('.tab-button');
-        const geminiModal = document.getElementById('gemini-modal');
-        const geminiModalContent = document.getElementById('gemini-modal-content');
-        const modalText = document.getElementById('modal-text');
-        const closeModalButton = document.getElementById('close-modal');
-
+        
         // Functions for Streak/Progress Tracking
         function getStreakData() {
             const streakData = JSON.parse(localStorage.getItem('owasp_course_streak')) || {};
@@ -852,7 +990,7 @@
             } else {
                 // First completion
                 localStorage.setItem('owasp_course_streak', JSON.stringify({
-                    lastCompletedDate: today.toISOString().slice(0, 0),
+                    lastCompletedDate: today.toISOString().slice(0, 10),
                     streakCount: 1
                 }));
             }
@@ -863,143 +1001,22 @@
             const { streakCount } = getStreakData();
             streakCounter.innerHTML = `🔥 ${streakCount}`;
         }
-
-        // Functions for Gemini API Calls
-        async function fetchGeminiExplanation(prompt) {
-            loadingIndicator.classList.remove('hidden');
-            explainButton.disabled = true;
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            
-            const chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: `Explique este conceito de cibersegurança de forma simples e didática: ${prompt}. Responda em ${currentLanguage === 'pt' ? 'português' : (currentLanguage === 'en' ? 'inglês' : 'espanhol')}.` }] });
-
-            const payload = { contents: chatHistory };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                const explanation = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (explanation) {
-                    modalText.innerHTML = explanation.replace(/\n/g, '<br>');
-                    geminiModal.classList.remove('hidden');
-                } else {
-                    modalText.textContent = 'Não foi possível obter uma explicação. Tente novamente.';
-                    geminiModal.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error('API Error:', error);
-                modalText.textContent = 'Ocorreu um erro ao conectar com o serviço. Tente novamente mais tarde.';
-                geminiModal.classList.remove('hidden');
-            } finally {
-                loadingIndicator.classList.add('hidden');
-                explainButton.disabled = false;
-            }
-        }
-
-        // Function to handle TTS
-        async function fetchGeminiTTS(text) {
-            loadingIndicator.classList.remove('hidden');
-            ttsButton.disabled = true;
-            isSpeaking = true;
-
-            const voiceNames = {
-                'pt': 'Kore',
-                'en': 'Zephyr',
-                'es': 'Puck'
-            };
-
-            const payload = {
-                contents: [{
-                    parts: [{ text: text }]
-                }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: {
-                        voiceConfig: {
-                            prebuiltVoiceConfig: { voiceName: voiceNames[currentLanguage] }
-                        }
-                    }
-                },
-                model: "gemini-2.5-flash-preview-tts"
-            };
-
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-                const mimeType = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
-
-                if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
-                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 16000;
-                    const pcmData = base64ToArrayBuffer(audioData);
-                    
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const pcm16 = new Int16Array(pcmData);
-                    const audioBuffer = audioContext.createBuffer(1, pcm16.length, sampleRate);
-                    const channelData = audioBuffer.getChannelData(0);
-                    for (let i = 0; i < pcm16.length; i++) {
-                        channelData[i] = pcm16[i] / 32768;
-                    }
-
-                    audioSource = audioContext.createBufferSource();
-                    audioSource.buffer = audioBuffer;
-                    audioSource.connect(audioContext.destination);
-                    audioSource.onended = () => {
-                        isSpeaking = false;
-                        ttsButton.textContent = '🔊 Ouvir Lição';
-                        ttsButton.disabled = false;
-                        loadingIndicator.classList.add('hidden');
-                    };
-                    audioSource.start();
-                } else {
-                    throw new Error('Invalid audio data');
-                }
-            } catch (error) {
-                console.error('TTS API Error:', error);
-                alert('Ocorreu um erro ao gerar o áudio. Tente novamente mais tarde.');
-                isSpeaking = false;
-                ttsButton.textContent = '🔊 Ouvir Lição';
-                ttsButton.disabled = false;
-                loadingIndicator.classList.add('hidden');
-            }
-        }
-
-        function base64ToArrayBuffer(base64) {
-            const binaryString = atob(base64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return bytes.buffer;
-        }
-
-        function stopSpeaking() {
-            if (audioSource) {
-                audioSource.stop();
-                isSpeaking = false;
-                ttsButton.textContent = '🔊 Ouvir Lição';
-                ttsButton.disabled = false;
-                loadingIndicator.classList.add('hidden');
-            }
-        }
-
+        
         // Function to render the current lesson based on language and section
         function renderLesson() {
             const lessons = courseData[currentLanguage][currentSection];
+            const isLastCourse = currentSection === 'api' && currentLessonIndex === lessons.length - 1;
+
+            if (isLastCourse) {
+                courseTitle.innerHTML = courseFinalData[currentLanguage].title;
+                lessonContent.innerHTML = courseFinalData[currentLanguage].content;
+                document.getElementById('question-area').style.display = 'none';
+                nextButton.classList.add('hidden');
+                restartButton.classList.remove('hidden');
+                documentationArea.classList.add('hidden');
+                return;
+            }
+
             const lesson = lessons[currentLessonIndex];
             
             // Render content
@@ -1013,7 +1030,7 @@
                 lesson.options.forEach((option, index) => {
                     const button = document.createElement('button');
                     button.innerHTML = option;
-                    button.className = 'option-button bg-gray-200 text-gray-800 p-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600';
+                    button.className = 'option-button bg-gray-200 text-gray-800 p-4 rounded-lg hover:bg-gray-300 transition-colors duration-200';
                     button.onclick = () => handleAnswer(index);
                     optionsContainer.appendChild(button);
                 });
@@ -1027,26 +1044,9 @@
                 document.getElementById('question-area').style.display = 'none';
                 feedbackMessage.classList.add('hidden');
                 
-                // Show 'restart' button only at the very end
-                const allSections = Object.keys(courseData[currentLanguage]);
-                const isLastLesson = currentLessonIndex === lessons.length - 1;
-                const isLastSection = allSections.indexOf(currentSection) === allSections.length - 1;
-
-                if (isLastLesson && isLastSection) {
-                    nextButton.classList.add('hidden');
-                    restartButton.classList.remove('hidden');
-                } else {
-                    nextButton.classList.remove('hidden');
-                    restartButton.classList.add('hidden');
-                }
+                nextButton.classList.remove('hidden');
+                restartButton.classList.add('hidden');
                 documentationArea.classList.add('hidden');
-            }
-            
-            // Reset TTS button text and state
-            ttsButton.textContent = currentLanguage === 'pt' ? '🔊 Ouvir Lição' : (currentLanguage === 'en' ? '🔊 Listen to Lesson' : '🔊 Escuchar Lección');
-            isSpeaking = false;
-            if (audioSource) {
-                audioSource.stop();
             }
         }
 
@@ -1063,8 +1063,6 @@
                 nextButton.classList.remove('hidden');
                 
                 // Update streak on correct answer
-                const lessonDay = lesson.day;
-                const { lastCompletedDate } = getStreakData();
                 const today = new Date();
                 const todayString = today.toISOString().slice(0, 10);
                 
@@ -1126,7 +1124,6 @@
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     document.querySelector(`[data-section="${currentSection}"]`).classList.add('active');
                 } else {
-                    currentSection = 'final';
                     currentLessonIndex = 0;
                 }
             }
@@ -1155,14 +1152,12 @@
             currentLanguage = event.target.value;
             renderLesson();
             const texts = {
-                pt: { next: 'Continuar', restart: 'Reiniciar', explain: '🤔 Explicar com Gemini', tts: '🔊 Ouvir Lição', tabs: ['OWASP Top 10', 'Ameaças Automatizadas', 'Segurança de API'] },
-                en: { next: 'Continue', restart: 'Restart', explain: '🤔 Explain with Gemini', tts: '🔊 Listen to Lesson', tabs: ['OWASP Top 10', 'Automated Threats', 'API Security'] },
-                es: { next: 'Continuar', restart: 'Reiniciar', explain: '🤔 Explicar con Gemini', tts: '🔊 Escuchar Lección', tabs: ['OWASP Top 10', 'Amenazas Automatizadas', 'Seguridad de API'] }
+                pt: { next: 'Continuar', restart: 'Reiniciar', tabs: ['OWASP Top 10', 'Ameaças Automatizadas', 'Segurança de API'] },
+                en: { next: 'Continue', restart: 'Restart', tabs: ['OWASP Top 10', 'Automated Threats', 'API Security'] },
+                es: { next: 'Continuar', restart: 'Reiniciar', tabs: ['OWASP Top 10', 'Amenazas Automatizadas', 'Seguridad de API'] }
             };
             nextButton.textContent = texts[currentLanguage].next;
             restartButton.textContent = texts[currentLanguage].restart;
-            explainButton.textContent = texts[currentLanguage].explain;
-            ttsButton.textContent = texts[currentLanguage].tts;
             document.getElementById('tab-top10').textContent = texts[currentLanguage].tabs[0];
             document.getElementById('tab-bots').textContent = texts[currentLanguage].tabs[1];
             document.getElementById('tab-api').textContent = texts[currentLanguage].tabs[2];
@@ -1177,32 +1172,6 @@
                 currentLessonIndex = 0;
                 renderLesson();
             });
-        });
-
-        // Gemini controls
-        explainButton.addEventListener('click', () => {
-            const currentLesson = courseData[currentLanguage][currentSection][currentLessonIndex];
-            fetchGeminiExplanation(currentLesson.content.replace(/<[^>]*>?/gm, ''));
-        });
-
-        ttsButton.addEventListener('click', () => {
-            if (isSpeaking) {
-                stopSpeaking();
-            } else {
-                const currentLesson = courseData[currentLanguage][currentSection][currentLessonIndex];
-                fetchGeminiTTS(currentLesson.content.replace(/<[^>]*>?/gm, ''));
-            }
-        });
-
-        // Modal event listeners
-        closeModalButton.addEventListener('click', () => {
-            geminiModal.classList.add('hidden');
-        });
-
-        geminiModal.addEventListener('click', (event) => {
-            if (event.target === geminiModal) {
-                geminiModal.classList.add('hidden');
-            }
         });
 
         // Initialize the course
